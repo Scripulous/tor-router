@@ -5,6 +5,7 @@ edition = "2021"
 description = "Tiny Tor client for Windows: local SOCKS5 proxy plus a one-step per-user system proxy toggle. No admin needed."
 
 [dependencies]
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
 anyhow = "1"
 # Arti is the Tor Project's own Rust implementation of Tor.
 arti-client = { version = "0", default-features = false, features = ["tokio", "rustls", "static-sqlite"] }
