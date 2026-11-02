@@ -1,0 +1,21 @@
+[package]
+name = "torproxy"
+version = "0.1.0"
+edition = "2021"
+description = "Tiny Tor client for Windows: local SOCKS5 proxy plus a one-step per-user system proxy toggle. No admin needed."
+
+[dependencies]
+anyhow = "1"
+# Arti is the Tor Project's own Rust implementation of Tor.
+arti-client = { version = "0", default-features = false, features = ["tokio", "rustls", "static-sqlite"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "signal", "sync"] }
+tokio-util = { version = "0.7", features = ["compat"] }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
