@@ -1,0 +1,29 @@
+name: Build Windows exe
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: torproxy
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: torproxy
+      - name: Build
+        run: cargo build --release
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: torproxy-windows
+          path: |
+            torproxy/target/release/torproxy.exe
+            torproxy/Cargo.lock
