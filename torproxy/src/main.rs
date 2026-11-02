@@ -55,6 +55,9 @@ pub fn data_dir() -> PathBuf {
 
 #[tokio::main]
 async fn main() {
+    // rustls needs a crypto backend chosen explicitly; without this Tor start-up panics.
+    let _ = rustls::crypto::ring::default_provider().install_default();
+
     let result = run().await;
     if let Err(e) = &result {
         eprintln!("\nError: {e:#}");
